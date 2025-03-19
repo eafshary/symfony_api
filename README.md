@@ -1,11 +1,17 @@
 # Description
+
 I have implemented the project following Symfony best practices for infrastructure. The setup includes Symfony Docker with FrankenPHP, PostgreSQL, Redis, and PHP.
 
-For initializing data, I used database migrations. The API is documented using Swagger, and I have followed RESTful best practices. The architecture follows the Hexagonal pattern to ensure modularity and maintainability.
+Key features of the implementation:
 
-For error handling, I have implemented Symfony’s best-practice assertions. Data manipulation is handled using Symfony’s Serializer. To optimize performance and caching, I integrated Redis.
-
-For authentication, I used JWT. Additionally, I implemented the pipeline pattern for merging JSON files efficiently.
+Data Initialization: Database migrations
+API Documentation: Swagger
+Architecture: Hexagonal pattern for modularity and maintainability
+Error Handling: Symfony best-practice assertions
+Data Manipulation: Symfony Serializer
+Performance & Caching: Redis integration
+Authentication: JWT
+JSON Merging: Pipeline pattern implementation
 
 # Symfony Docker
 
