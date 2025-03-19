@@ -13,6 +13,8 @@ use Nelmio\ApiDocBundle\Attribute\Model;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class ApiController extends AbstractController
 {
@@ -20,6 +22,7 @@ class ApiController extends AbstractController
         private readonly UserRepository $userRepository,
         private readonly SerializerInterface $serializer,
         private readonly ApiService $apiService,
+        private readonly CacheInterface $cache // Inject the cache interface
     ) {
     }
 
@@ -32,8 +35,17 @@ class ApiController extends AbstractController
     public function properties(): JsonResponse
     {
         try {
-            $apiResult = $this->apiService->getApiResult();
-            $json = $this->serializer->serialize($apiResult, 'json', ['groups' => 'property:read']);
+            $cacheKey = 'api_properties';
+            $json = $this->cache->get($cacheKey, function (ItemInterface $item) {
+                // Cache TTL (Time-To-Live) in seconds
+                $item->expiresAfter(3600); // Cache for 1 hour
+
+                // Fetch data from API Service
+                $apiResult = $this->apiService->getApiResult();
+
+                // Serialize the response
+                return $this->serializer->serialize($apiResult, 'json', ['groups' => 'property:read']);
+            });
 
         } catch (\Exception $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], 500);
