@@ -2,33 +2,15 @@
 
 namespace App\Service\Api\Adapter;
 
-use App\Service\Api\Port\ApiPort;
-use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
-
-class NBCNewsApi implements ApiPort
+class NBCNewsApi extends AbstractNewsApi
 {
-    private string $dataPath;
-
-    public function __construct(string $dataPath, private CacheInterface $cache)
+    protected function getFileName(): string
     {
-        $this->dataPath = realpath($dataPath);
+        return 'nbc_news.json';
     }
 
-    public function getApiResponse(): array
+    protected function getCacheKey(): string
     {
-        $cacheKey = 'nbc_news_api_response';
-        $filePath = $this->dataPath . '/nbc_news.json';
-
-        return $this->cache->get($cacheKey, function (ItemInterface $item) use ($filePath) {
-            $item->expiresAfter(3600);
-
-            if (!file_exists($filePath)) {
-               return [];
-            }
-
-            $jsonData = file_get_contents($filePath);
-            return json_decode($jsonData, true);
-        });
+        return 'nbc_news_api_response';
     }
 }
