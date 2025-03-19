@@ -35,23 +35,16 @@ class ApiController extends AbstractController
     public function properties(): JsonResponse
     {
         try {
-            $cacheKey = 'api_properties';
-            $json = $this->cache->get($cacheKey, function (ItemInterface $item) {
-                // Cache TTL (Time-To-Live) in seconds
-                $item->expiresAfter(3600); // Cache for 1 hour
 
-                // Fetch data from API Service
-                $apiResult = $this->apiService->getApiResult();
+            $apiResult = $this->apiService->getApiResult();
 
-                // Serialize the response
-                return $this->serializer->serialize($apiResult, 'json', ['groups' => 'property:read']);
-            });
+            return new JsonResponse(
+                $this->serializer->serialize($apiResult, 'json', ['groups' => 'property:read']), 200, [], true
+            );
 
         } catch (\Exception $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], 500);
         }
-
-        return new JsonResponse($json, 200, [], true);
     }
 
     #[Route('/api/users', methods: ['GET'])]
