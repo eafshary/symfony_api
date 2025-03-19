@@ -4,14 +4,14 @@ I have implemented the project following Symfony best practices for infrastructu
 
 Key features of the implementation:
 
-Data Initialization: Database migrations
-API Documentation: Swagger
-Architecture: Hexagonal pattern for modularity and maintainability
-Error Handling: Symfony best-practice assertions
-Data Manipulation: Symfony Serializer
-Performance & Caching: Redis integration
-Authentication: JWT
-JSON Merging: Pipeline pattern implementation
+* Data Initialization: Database migrations
+* API Documentation: Swagger
+* Architecture: Hexagonal pattern for modularity and maintainability
+* Error Handling: Symfony best-practice assertions
+* Data Manipulation: Symfony Serializer
+* Performance & Caching: Redis integration
+* Authentication: JWT
+* JSON Merging: Pipeline pattern implementation
 
 # Symfony Docker
 
